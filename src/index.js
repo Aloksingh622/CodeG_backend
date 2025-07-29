@@ -25,7 +25,7 @@ const pairmode_routes=require("./routes/pairMode");
 
 
 const allowedOrigins = [
-  'https://code-g-frontend.vercel.app/',
+  'https://code-g-frontend.vercel.app',
   'http://localhost:5173'                 
 ];
 

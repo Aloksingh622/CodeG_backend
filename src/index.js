@@ -24,10 +24,22 @@ admin.initializeApp({
 const pairmode_routes=require("./routes/pairMode");
 
 
-app.use(cors({
-    origin:"http://localhost:5173",
-    credentials:true
-}))
+const allowedOrigins = [
+  'https://code-g-frontend-4g68.vercel.app/',
+  'http://localhost:5173'                 
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
 
 
 app.use(express.json());

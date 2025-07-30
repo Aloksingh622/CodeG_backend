@@ -14,7 +14,7 @@ let email_varification = async (req, res) => {
 
     try {
 
-        const { email_id } = req.body; 
+        const { email_id } = req.body;
         if (!email_id) return res.status(400).json({ error: "Missing email_id" });
 
         const transporter = nodemailer.createTransport({
@@ -31,7 +31,7 @@ let email_varification = async (req, res) => {
             digits: true
         })
         await redisclient.set(`otp:${email_id}`, otp, {
-            EX: 300, 
+            EX: 300,
         });
 
 
@@ -102,7 +102,7 @@ let register = async (req, res) => {
         }
 
 
-        res.cookie("token", token, { maxAge:24* 60 * 60 * 1000 });
+        res.cookie("token", token, { maxAge: 24 * 60 * 60 * 1000 });
 
         res.status(201).json({
             user: reply,
@@ -181,12 +181,13 @@ let login = async (req, res) => {
         let token = jwt.sign({ _id: real_user._id, email_id: email_id }, process.env.private_key, { expiresIn: "1d" });
 
         res.cookie("token", token, {
-            httpOnly: true, // 🔒 prevents JavaScript access
-            secure: process.env.NODE_ENV === 'production', // 🔐 only over HTTPS in prod
-            sameSite: 'strict', // 🛡️ protects against CSRF
-            maxAge: 24*60 * 60 * 1000, // 1 hour
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'none',  
+            maxAge: 24 * 60 * 60 * 1000,
             overwrite: true
         });
+
 
         let setpassword = "password" in real_user;
         let reply = {
@@ -384,7 +385,7 @@ const social_login = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'Lax',
-            maxAge: 24*60 * 60 * 1000,
+            maxAge: 24 * 60 * 60 * 1000,
             overwrite: true
         });
 
@@ -461,7 +462,7 @@ const change_role = async (req, res) => {
         userToUpdate.role = newRole;
         await userToUpdate.save();
 
-       
+
         res.status(200).json({
             success: true,
             message: `Successfully updated role for ${userToUpdate.first_name} to '${newRole}'.`,
@@ -474,7 +475,7 @@ const change_role = async (req, res) => {
         });
 
     } catch (err) {
-        console.error("Error updating user role:", err); 
+        console.error("Error updating user role:", err);
         res.status(500).json({
             success: false,
             message: "An internal server error occurred."
@@ -637,11 +638,11 @@ const getTodoProblems = async (req, res) => {
 const detailofuser = async (req, res) => {
 
     try {
-      
+
         const { userId } = req.params;
         const User = await user.findById(userId);
 
-       
+
         if (!User) {
             return res.status(404).json({ message: "User not found." });
         }
@@ -652,7 +653,7 @@ const detailofuser = async (req, res) => {
             profile_pic_url: User.profile_pic_url
         };
 
-        
+
         res.status(200).json(safeUserProfile);
 
     } catch (error) {
@@ -663,4 +664,4 @@ const detailofuser = async (req, res) => {
 }
 
 
-module.exports = { register, login, logout, admin_register, delete_profile, check_user, email_varification, social_login, get_all_user, change_role, update_user, change_pass, addProblemToTodo, removeProblemFromTodo, getTodoProblems ,detailofuser}
+module.exports = { register, login, logout, admin_register, delete_profile, check_user, email_varification, social_login, get_all_user, change_role, update_user, change_pass, addProblemToTodo, removeProblemFromTodo, getTodoProblems, detailofuser }

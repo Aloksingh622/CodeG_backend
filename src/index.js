@@ -17,6 +17,9 @@ const videoRouter = require("./routes/videoCreator");
 const discussion_router =require("./routes/discusion")
 const constest_router=require("./routes/contest")
 const serviceAccount = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+// const serviceAccount=require("../serviceAccountKey.json")
+app.use(cookieParser());
+
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -31,7 +34,6 @@ app.use(cors({
 
 
 app.use(express.json());
-app.use(cookieParser());
 
 app.use("/user", user_routes);
 app.use("/problem",problem_routes)

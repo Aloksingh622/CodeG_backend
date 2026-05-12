@@ -1,8 +1,6 @@
+let {createClient}=require('redis')
 
-
-import { createClient } from 'redis';
-
-const client = createClient({
+const redisclient = createClient({
     username: 'default',
     password: 'GlOZXMdwJZqHl6zigBNDDtKqMXdOr4DT',
     socket: {

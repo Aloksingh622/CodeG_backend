@@ -1,17 +1,13 @@
-let {createClient} =require('redis')
 
-const redisclient = createClient({
+
+import { createClient } from 'redis';
+
+const client = createClient({
     username: 'default',
-    password: 'qRngAg392RGe0g2vj5RQ7kqoxVtmkkDk',
+    password: 'GlOZXMdwJZqHl6zigBNDDtKqMXdOr4DT',
     socket: {
-        host: 'redis-16183.c8.us-east-1-4.ec2.redns.redis-cloud.com',
-        port: 16183
+        host: 'redis-19323.crce263.ap-south-1-1.ec2.cloud.redislabs.com',
+        port: 19323
     }
 });
-
-
-
-
 module.exports=redisclient;
-
-
